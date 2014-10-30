@@ -1,0 +1,10 @@
+package Interfaz;
+
+public class Habitacion {
+	int numeroHabitacion, edificio;
+	String sucursal;
+	
+	public Habitacion(){
+		
+	}
+}

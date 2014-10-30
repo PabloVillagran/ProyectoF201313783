@@ -1,0 +1,70 @@
+package asdf;
+
+import java.awt.BorderLayout;
+import java.awt.EventQueue;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.JLabel;
+import javax.swing.JTextField;
+import javax.swing.border.TitledBorder;
+import java.awt.GridBagLayout;
+import java.awt.GridBagConstraints;
+import java.awt.Insets;
+import javax.swing.JComboBox;
+import javax.swing.JButton;
+import java.awt.Font;
+import javax.swing.ImageIcon;
+import java.awt.CardLayout;
+import javax.swing.JMenuBar;
+import javax.swing.JMenu;
+import javax.swing.JTextArea;
+
+public class fsad extends JFrame {
+	private JTextField tNHabitacion;
+	/**
+	 * Create the frame.
+	 */
+	public fsad() {
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(100, 100, 600, 600);
+		
+		JMenuBar menuBar = new JMenuBar();
+		setJMenuBar(menuBar);
+		
+		JMenu mnUnmenu = new JMenu("archivo");
+		menuBar.add(mnUnmenu);
+		getContentPane().setLayout(null);
+		
+		JPanel cards = new JPanel();
+		cards.setBorder(null);
+		cards.setBounds(15, 15, 550, 425);
+		getContentPane().add(cards);
+		cards.setLayout(new CardLayout(0, 0));
+		
+		JPanel pCOut = new JPanel();
+		cards.add(pCOut, "Check-Out panel");
+		pCOut.setLayout(null);
+		
+		JLabel lNHabitacion = new JLabel("Numero de Habitacion");
+		lNHabitacion.setBounds(15, 16, 166, 20);
+		pCOut.add(lNHabitacion);
+		
+		tNHabitacion = new JTextField();
+		tNHabitacion.setBounds(196, 13, 100, 26);
+		pCOut.add(tNHabitacion);
+		tNHabitacion.setColumns(10);
+		
+		JLabel lInfo = new JLabel("Informacion del Cliente");
+		lInfo.setBounds(15, 88, 166, 20);
+		pCOut.add(lInfo);
+		
+		JTextArea taInfo = new JTextArea();
+		taInfo.setBounds(25, 133, 499, 239);
+		pCOut.add(taInfo);
+		
+		JButton bConfirmar = new JButton("Confirmar Check-Out");
+		bConfirmar.setBounds(343, 388, 192, 29);
+		pCOut.add(bConfirmar);
+	}
+}

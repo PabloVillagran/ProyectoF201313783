@@ -1,0 +1,56 @@
+package Interfaz;
+
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.File;
+
+public class Sucursal {
+	String ubicacion, moneda, habitPath;
+	int nhabitaciones;
+	File file;
+	BufferedReader br;
+	Habitacion[] habitaciones = null;
+	
+	public Sucursal(File file){
+		try {
+			br = new BufferedReader(new FileReader(file));
+			String line;
+			while((line = br.readLine()) != null){
+				if(line.contains("ubicacion:")){
+					ubicacion = line.substring(line.indexOf(":")+1);
+				}
+				if(line.contains("habitaciones:")){
+					nhabitaciones = Integer.valueOf(line.substring(line.indexOf(":")+1));
+				}
+				if(line.contains("moneda")){
+					moneda = line.substring(line.indexOf(":")+1);
+				}
+				if(line.contains("habitaciones")){
+					habitPath = line.substring(line.indexOf(":")+1);
+				}
+			}
+			br.close();
+		}catch(IOException e1){}
+		habitaciones = new Habitacion[nhabitaciones];
+		try{
+			if(new File(habitPath).exists()){
+				br = new BufferedReader(new FileReader(habitPath));
+			}else{
+				System.out.println("No se encontro el archivo de habitaciones.");
+			}
+		}catch(IOException e){
+			
+		}
+		System.out.println("sucursal creada");
+	}
+	
+	public void checkIn(){
+		
+	}
+	
+	public void checkOut(){
+		
+	}
+	
+}

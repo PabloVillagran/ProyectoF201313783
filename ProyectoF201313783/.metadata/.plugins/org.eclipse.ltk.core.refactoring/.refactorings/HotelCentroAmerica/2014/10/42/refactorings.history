@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Copy element &apos;&apos; to &apos;Interfaz.Interfaz.promociones()&apos;&#x0D;&#x0A;- Original project: &apos;HotelCentroAmerica&apos;&#x0D;&#x0A;- Destination element: &apos;Interfaz.Interfaz.promociones()&apos;&#x0D;&#x0A;- Original element: &apos;Interfaz.Interfaz.promociones()&apos;" description="Copy method" destination="/src&lt;Interfaz{Interfaz.java[Interfaz~promociones" element1="/src&lt;Interfaz{Interfaz.java[Interfaz~promociones" flags="589830" id="org.eclipse.jdt.ui.copy" members="1" policy="org.eclipse.jdt.ui.copyMembers" stamp="1413263957513" version="1.0"/>
+</session>

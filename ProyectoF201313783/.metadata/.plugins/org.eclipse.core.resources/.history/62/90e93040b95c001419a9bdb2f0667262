@@ -1,0 +1,361 @@
+package Interfaz;
+
+import java.awt.FlowLayout;
+import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JFileChooser;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JSeparator;
+import javax.swing.JTextField;
+import javax.swing.border.TitledBorder;
+
+import asdf.fsad;
+
+@SuppressWarnings("serial")
+public class Interfaz extends JFrame{
+	Sucursal sucursal;
+	String principal;
+	File file=null;
+	
+	public Interfaz(){
+		super("Hotel Centro América");
+		
+		setSize(500, 500);
+		setLayout(null);
+		setLocationRelativeTo(null);
+		
+		JMenuBar mBar = new JMenuBar();
+		JMenu menu = new JMenu("Sucursal");
+		JMenuItem hotel = new JMenuItem("Abrir Sucursal");
+		hotel.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e){
+				JFileChooser fc = new JFileChooser("Seleccione el Archivo");
+				fc.showOpenDialog(null);
+				file = fc.getSelectedFile();
+				while(!file.exists() ||(fc.showOpenDialog(null) == JFileChooser.CANCEL_OPTION)){
+					fc.showOpenDialog(null);
+					if(fc.getSelectedFile().getPath().contains(".inicio")){
+						file = fc.getSelectedFile();
+					}else{
+						errorDeCarga(true);
+					}
+				}
+				sucursal = new Sucursal();
+				
+				try {
+					BufferedReader br = new BufferedReader(new FileReader(file));
+					String line;
+					while((line = br.readLine()) != null){
+						if(line.contains("ubicacion:")){
+							sucursal.ubicacion = line.substring(line.indexOf(":")+1);
+						}
+						if(line.contains("habitaciones:")){
+							sucursal.nhabitaciones = line.substring(line.indexOf(":")+1);
+						}
+						if(line.contains("moneda")){
+							sucursal.moneda = line.substring(line.indexOf(":")+1);
+						}
+					}
+				} catch (IOException e1){}
+			}
+		});
+		JMenu reportes = new JMenu("Reportes");
+		reportes.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e){
+				
+			}
+		});
+		JMenu promocion = new JMenu("Promocion");
+		promocion.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e){
+				
+			}
+		});
+		JMenuItem salir = new JMenuItem("Salir");
+		salir.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e){
+				
+			}
+		});
+		menu.add(hotel);
+		menu.addSeparator();
+		menu.add(salir);
+		mBar.add(menu);
+		mBar.add(reportes);
+		mBar.add(promocion);
+		
+		JButton bReserv = new JButton("Reservacion");
+		JButton checkIn = new JButton("Check In");
+		JButton checkOut = new JButton("Check out");
+		
+		bReserv.setBounds(10, getHeight()-115,150,45);
+		checkIn.setBounds(175, getHeight()-115,150,45);
+		checkOut.setBounds(getWidth()-160, getHeight()-115,150,45);
+		
+		bReserv.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e){
+				setVisible(false);
+				reservacion();
+			}
+		});
+		checkIn.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e){
+				
+			}
+		});
+		checkOut.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e){
+				
+			}
+		});
+		
+		add(bReserv); add(checkIn); add(checkOut);
+		setJMenuBar(mBar);
+		setVisible(true);
+	}
+	
+	public void errorDeCarga(boolean error){
+		if(error){
+			JOptionPane.showMessageDialog(this, "Error al cargar el archivo", "Error", JOptionPane.ERROR_MESSAGE);
+		}
+	}
+	
+	private void reservacion(){
+		InnerFrame reservacion = new InnerFrame("Reservaciones");
+		reservacion.setBounds(0, 0, 600, 700);;
+		reservacion.setLayout(null);
+		reservacion.setLocationRelativeTo(null);
+		reservacion.setParent(this);
+		
+		JPanel panel = new JPanel();
+		panel.setBorder(new TitledBorder(null, "Formulario de Reservacion", TitledBorder.CENTER, TitledBorder.TOP, null, null));
+		panel.setBounds(15, 32, 548, 596);
+		getContentPane().add(panel);
+		panel.setLayout(null);
+		
+		JLabel lNombre = new JLabel("Nombre y Apellido");
+		lNombre.setBounds(36, 31, 133, 20);
+		panel.add(lNombre);
+		
+		tNombre = new JTextField();
+		tNombre.setBounds(236, 28, 271, 26);
+		panel.add(tNombre);
+		tNombre.setColumns(10);
+		
+		JLabel lPais = new JLabel("Pais de Residencia");
+		lPais.setBounds(36, 97, 133, 20);
+		panel.add(lPais);
+		
+		JLabel lIn = new JLabel("Fecha Check-In");
+		lIn.setBounds(36, 163, 135, 20);
+		panel.add(lIn);
+		
+		tCosto = new JTextField();
+		tCosto.setText("$ -");
+		tCosto.setFont(new Font("Tahoma", Font.BOLD, 20));
+		tCosto.setEnabled(false);
+		tCosto.setEditable(false);
+		tCosto.setBounds(236, 485, 271, 26);
+		tCosto.setColumns(10);
+		panel.add(tCosto);
+		
+		JLabel lOut = new JLabel("Fecha Check-Out");
+		lOut.setBounds(36, 229, 129, 20);
+		panel.add(lOut);
+		
+		JComboBox cPais = new JComboBox();
+		cPais.setBounds(236, 94, 271, 26);
+		panel.add(cPais);
+		
+		JLabel lTipoHabitacion = new JLabel("Tipo de Habitaci\u00F3n");
+		lTipoHabitacion.setBounds(36, 295, 133, 20);
+		panel.add(lTipoHabitacion);
+		
+		JComboBox cTipoHabitacion = new JComboBox();
+		cTipoHabitacion.setBounds(236, 292, 271, 26);
+		panel.add(cTipoHabitacion);
+		
+		JLabel lCHuesped = new JLabel("Cantidad de Huespedes");
+		lCHuesped.setBounds(36, 361, 165, 20);
+		panel.add(lCHuesped);
+		
+		tCHuesped = new JTextField();
+		tCHuesped.setBounds(236, 358, 271, 26);
+		panel.add(tCHuesped);
+		tCHuesped.setColumns(10);
+		
+		JLabel lPromo = new JLabel("Promocion");
+		lPromo.setBounds(36, 422, 76, 20);
+		panel.add(lPromo);
+		
+		JComboBox cPromo = new JComboBox();
+		cPromo.setBounds(236, 419, 271, 26);
+		panel.add(cPromo);
+		
+		JLabel lCosto = new JLabel("Costo");
+		lCosto.setBounds(36, 488, 40, 20);
+		panel.add(lCosto);
+		
+		JLabel lblDia = new JLabel("Dia:");
+		lblDia.setBounds(236, 488, 29, 20);
+		panel.add(lblDia);
+		
+		JComboBox comboBox = new JComboBox();
+		comboBox.setBounds(273, 485, 50, 26);
+		panel.add(comboBox);
+		
+		JLabel lblMes = new JLabel("Mes:");
+		lblMes.setBounds(328, 488, 33, 20);
+		panel.add(lblMes);
+		
+		JComboBox comboBox_1 = new JComboBox();
+		comboBox_1.setBounds(366, 485, 36, 26);
+		panel.add(comboBox_1);
+		
+		JLabel lblAo = new JLabel("Año:");
+		lblAo.setBounds(407, 488, 35, 20);
+		panel.add(lblAo);
+		
+		JComboBox comboBox_2 = new JComboBox();
+		comboBox_2.setBounds(445, 485, 62, 26);
+		panel.add(comboBox_2);
+		
+		JButton bGuardar = new JButton("Guardar");
+		bGuardar.setIcon(new ImageIcon(fsad.class.getResource("/resources/g.png")));
+		bGuardar.setBounds(311, 527, 196, 60);
+		panel.add(bGuardar);
+		
+		JLabel lDiaIn = new JLabel("Dia:");
+		lDiaIn.setBounds(236, 163, 29, 20);
+		panel.add(lDiaIn);
+		
+		JComboBox cDiaIn = new JComboBox();
+		cDiaIn.setBounds(273, 160, 50, 26);
+		panel.add(cDiaIn);
+		
+		JLabel lMesIn = new JLabel("Mes:");
+		lMesIn.setBounds(328, 163, 33, 20);
+		panel.add(lMesIn);
+		
+		JComboBox cMesIn = new JComboBox();
+		cMesIn.setBounds(366, 160, 36, 26);
+		panel.add(cMesIn);
+		
+		JLabel lAIn = new JLabel("A\u00F1o:");
+		lAIn.setBounds(407, 163, 35, 20);
+		panel.add(lAIn);
+		
+		JComboBox cAIn = new JComboBox();
+		cAIn.setBounds(445, 160, 62, 26);
+		panel.add(cAIn);
+		
+		JLabel lDiaOut = new JLabel("Dia:");
+		lDiaOut.setBounds(236, 229, 29, 20);
+		panel.add(lDiaOut);
+		
+		JComboBox cDiaOut = new JComboBox();
+		cDiaOut.setBounds(273, 226, 50, 26);
+		panel.add(cDiaOut);
+		
+		JLabel lMesOut = new JLabel("Mes:");
+		lMesOut.setBounds(328, 229, 33, 20);
+		panel.add(lMesOut);
+		
+		JComboBox cMesOut = new JComboBox();
+		cMesOut.setBounds(366, 226, 36, 26);
+		panel.add(cMesOut);
+		
+		JLabel lAOut = new JLabel("Año:");
+		lAOut.setBounds(407, 229, 35, 20);
+		panel.add(lAOut);
+		
+		JComboBox cAOut = new JComboBox();
+		cAOut.setBounds(445, 226, 62, 26);
+		panel.add(cAOut);
+		
+		JButton bCancelar = new JButton("Cancelar");
+		bCancelar.setIcon(new ImageIcon(fsad.class.getResource("/resources/e.png")));
+		bCancelar.setBounds(36, 527, 196, 60);
+		panel.add(bCancelar);
+		
+		reservacion.getContentPane().add(panel);
+		reservacion.setVisible(true);
+		reservacion.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+	}
+	
+	private void busqueda(){
+		
+	}
+	
+	private void promociones(){
+		
+	}
+
+	private void reportes(){
+		
+	}
+	
+	public class InnerFrame extends JFrame{
+		JFrame parent = null;
+		public InnerFrame(String title){
+			setTitle(title);
+			addWindowListener(new WindowListener(){
+				
+				public void windowActivated(WindowEvent arg0) {
+					
+				}
+				
+				public void windowClosed(WindowEvent arg0) {
+					
+				}
+				
+				public void windowClosing(WindowEvent arg0) {
+					parent.setVisible(true);
+				}
+				
+				public void windowDeactivated(WindowEvent arg0) {
+					
+				}
+				
+				public void windowDeiconified(WindowEvent arg0) {
+					
+				}
+				
+				public void windowIconified(WindowEvent arg0) {
+					
+				}
+				
+				public void windowOpened(WindowEvent arg0) {
+					
+				}
+				
+			});
+		}
+		public void setParent(JFrame parent){
+			this.parent = parent;
+		}
+	}
+	
+	public static void main(String args[]){
+		Interfaz inter = new Interfaz();
+		inter.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		inter.setResizable(false);
+	}
+}

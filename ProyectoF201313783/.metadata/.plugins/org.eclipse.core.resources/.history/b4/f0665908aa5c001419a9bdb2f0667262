@@ -1,0 +1,216 @@
+package asdf;
+
+import java.awt.BorderLayout;
+import java.awt.EventQueue;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.JLabel;
+import javax.swing.JTextField;
+import javax.swing.border.TitledBorder;
+import java.awt.GridBagLayout;
+import java.awt.GridBagConstraints;
+import java.awt.Insets;
+import javax.swing.JComboBox;
+import javax.swing.JButton;
+
+public class fsad extends JFrame {
+	private JTextField textField;
+	private JTextField textField_1;
+	private JTextField textField_2;
+	/**
+	 * Create the frame.
+	 */
+	public fsad() {
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(100, 100, 600, 700);
+		getContentPane().setLayout(null);
+		getContentPane().setLayout(null);
+		
+		JPanel panel = new JPanel();
+		panel.setBorder(new TitledBorder(null, "Formulario de Reservacion", TitledBorder.CENTER, TitledBorder.TOP, null, null));
+		panel.setBounds(15, 32, 548, 596);
+		getContentPane().add(panel);
+		GridBagLayout gbl_panel = new GridBagLayout();
+		gbl_panel.columnWidths = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+		gbl_panel.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+		gbl_panel.columnWeights = new double[]{0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE};
+		gbl_panel.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+		panel.setLayout(gbl_panel);
+		
+		JLabel lblNombreYApellido = new JLabel("Nombre y Apellido");
+		GridBagConstraints gbc_lblNombreYApellido = new GridBagConstraints();
+		gbc_lblNombreYApellido.anchor = GridBagConstraints.WEST;
+		gbc_lblNombreYApellido.insets = new Insets(0, 0, 5, 5);
+		gbc_lblNombreYApellido.gridx = 1;
+		gbc_lblNombreYApellido.gridy = 1;
+		panel.add(lblNombreYApellido, gbc_lblNombreYApellido);
+		
+		textField = new JTextField();
+		GridBagConstraints gbc_textField = new GridBagConstraints();
+		gbc_textField.insets = new Insets(0, 0, 5, 5);
+		gbc_textField.gridwidth = 12;
+		gbc_textField.fill = GridBagConstraints.HORIZONTAL;
+		gbc_textField.anchor = GridBagConstraints.NORTH;
+		gbc_textField.gridx = 3;
+		gbc_textField.gridy = 1;
+		panel.add(textField, gbc_textField);
+		textField.setColumns(10);
+		
+		JLabel lblNewLabel = new JLabel("Email");
+		GridBagConstraints gbc_lblNewLabel = new GridBagConstraints();
+		gbc_lblNewLabel.anchor = GridBagConstraints.WEST;
+		gbc_lblNewLabel.insets = new Insets(0, 0, 5, 5);
+		gbc_lblNewLabel.gridx = 1;
+		gbc_lblNewLabel.gridy = 3;
+		panel.add(lblNewLabel, gbc_lblNewLabel);
+		
+		textField_1 = new JTextField();
+		textField_1.setColumns(10);
+		GridBagConstraints gbc_textField_1 = new GridBagConstraints();
+		gbc_textField_1.gridwidth = 11;
+		gbc_textField_1.insets = new Insets(0, 0, 5, 5);
+		gbc_textField_1.fill = GridBagConstraints.HORIZONTAL;
+		gbc_textField_1.gridx = 3;
+		gbc_textField_1.gridy = 3;
+		panel.add(textField_1, gbc_textField_1);
+		
+		JLabel lblNumeroTelefnico = new JLabel("Numero Telefonico");
+		GridBagConstraints gbc_lblNumeroTelefnico = new GridBagConstraints();
+		gbc_lblNumeroTelefnico.anchor = GridBagConstraints.WEST;
+		gbc_lblNumeroTelefnico.insets = new Insets(0, 0, 5, 5);
+		gbc_lblNumeroTelefnico.gridx = 1;
+		gbc_lblNumeroTelefnico.gridy = 5;
+		panel.add(lblNumeroTelefnico, gbc_lblNumeroTelefnico);
+		
+		textField_2 = new JTextField();
+		textField_2.setColumns(10);
+		GridBagConstraints gbc_textField_2 = new GridBagConstraints();
+		gbc_textField_2.gridwidth = 11;
+		gbc_textField_2.insets = new Insets(0, 0, 5, 5);
+		gbc_textField_2.fill = GridBagConstraints.HORIZONTAL;
+		gbc_textField_2.gridx = 3;
+		gbc_textField_2.gridy = 5;
+		panel.add(textField_2, gbc_textField_2);
+		
+		JLabel lblPais = new JLabel("Pais de Residencia");
+		GridBagConstraints gbc_lblPais = new GridBagConstraints();
+		gbc_lblPais.anchor = GridBagConstraints.WEST;
+		gbc_lblPais.insets = new Insets(0, 0, 5, 5);
+		gbc_lblPais.gridx = 1;
+		gbc_lblPais.gridy = 7;
+		panel.add(lblPais, gbc_lblPais);
+		
+		JComboBox comboBox_3 = new JComboBox();
+		GridBagConstraints gbc_comboBox_3 = new GridBagConstraints();
+		gbc_comboBox_3.gridwidth = 11;
+		gbc_comboBox_3.insets = new Insets(0, 0, 5, 5);
+		gbc_comboBox_3.fill = GridBagConstraints.HORIZONTAL;
+		gbc_comboBox_3.gridx = 3;
+		gbc_comboBox_3.gridy = 7;
+		panel.add(comboBox_3, gbc_comboBox_3);
+		
+		JLabel lblTipoDeHabitacin = new JLabel("Tipo de Habitaci\u00F3n");
+		GridBagConstraints gbc_lblTipoDeHabitacin = new GridBagConstraints();
+		gbc_lblTipoDeHabitacin.anchor = GridBagConstraints.WEST;
+		gbc_lblTipoDeHabitacin.insets = new Insets(0, 0, 5, 5);
+		gbc_lblTipoDeHabitacin.gridx = 1;
+		gbc_lblTipoDeHabitacin.gridy = 9;
+		panel.add(lblTipoDeHabitacin, gbc_lblTipoDeHabitacin);
+		
+		JComboBox comboBox_4 = new JComboBox();
+		GridBagConstraints gbc_comboBox_4 = new GridBagConstraints();
+		gbc_comboBox_4.gridwidth = 11;
+		gbc_comboBox_4.insets = new Insets(0, 0, 5, 5);
+		gbc_comboBox_4.fill = GridBagConstraints.HORIZONTAL;
+		gbc_comboBox_4.gridx = 3;
+		gbc_comboBox_4.gridy = 9;
+		panel.add(comboBox_4, gbc_comboBox_4);
+		
+		JLabel lblNewLabel_1 = new JLabel("Promocion");
+		GridBagConstraints gbc_lblNewLabel_1 = new GridBagConstraints();
+		gbc_lblNewLabel_1.anchor = GridBagConstraints.WEST;
+		gbc_lblNewLabel_1.insets = new Insets(0, 0, 5, 5);
+		gbc_lblNewLabel_1.gridx = 1;
+		gbc_lblNewLabel_1.gridy = 11;
+		panel.add(lblNewLabel_1, gbc_lblNewLabel_1);
+		
+		JComboBox comboBox_5 = new JComboBox();
+		GridBagConstraints gbc_comboBox_5 = new GridBagConstraints();
+		gbc_comboBox_5.gridwidth = 11;
+		gbc_comboBox_5.insets = new Insets(0, 0, 5, 5);
+		gbc_comboBox_5.fill = GridBagConstraints.HORIZONTAL;
+		gbc_comboBox_5.gridx = 3;
+		gbc_comboBox_5.gridy = 11;
+		panel.add(comboBox_5, gbc_comboBox_5);
+		
+		JLabel lblFecha = new JLabel("Fecha");
+		GridBagConstraints gbc_lblFecha = new GridBagConstraints();
+		gbc_lblFecha.anchor = GridBagConstraints.WEST;
+		gbc_lblFecha.insets = new Insets(0, 0, 5, 5);
+		gbc_lblFecha.gridx = 1;
+		gbc_lblFecha.gridy = 13;
+		panel.add(lblFecha, gbc_lblFecha);
+		
+		JLabel lblDia = new JLabel("Dia:");
+		GridBagConstraints gbc_lblDia = new GridBagConstraints();
+		gbc_lblDia.anchor = GridBagConstraints.EAST;
+		gbc_lblDia.insets = new Insets(0, 0, 5, 5);
+		gbc_lblDia.gridx = 3;
+		gbc_lblDia.gridy = 13;
+		panel.add(lblDia, gbc_lblDia);
+		
+		JComboBox comboBox = new JComboBox();
+		GridBagConstraints gbc_comboBox = new GridBagConstraints();
+		gbc_comboBox.gridwidth = 3;
+		gbc_comboBox.insets = new Insets(0, 0, 5, 5);
+		gbc_comboBox.fill = GridBagConstraints.HORIZONTAL;
+		gbc_comboBox.gridx = 4;
+		gbc_comboBox.gridy = 13;
+		panel.add(comboBox, gbc_comboBox);
+		
+		JLabel lblMes = new JLabel("Mes:");
+		GridBagConstraints gbc_lblMes = new GridBagConstraints();
+		gbc_lblMes.anchor = GridBagConstraints.EAST;
+		gbc_lblMes.insets = new Insets(0, 0, 5, 5);
+		gbc_lblMes.gridx = 7;
+		gbc_lblMes.gridy = 13;
+		panel.add(lblMes, gbc_lblMes);
+		
+		JComboBox comboBox_1 = new JComboBox();
+		GridBagConstraints gbc_comboBox_1 = new GridBagConstraints();
+		gbc_comboBox_1.gridwidth = 3;
+		gbc_comboBox_1.insets = new Insets(0, 0, 5, 5);
+		gbc_comboBox_1.fill = GridBagConstraints.HORIZONTAL;
+		gbc_comboBox_1.gridx = 8;
+		gbc_comboBox_1.gridy = 13;
+		panel.add(comboBox_1, gbc_comboBox_1);
+		
+		JLabel lblAo = new JLabel("A\u00F1o:");
+		GridBagConstraints gbc_lblAo = new GridBagConstraints();
+		gbc_lblAo.anchor = GridBagConstraints.EAST;
+		gbc_lblAo.insets = new Insets(0, 0, 5, 5);
+		gbc_lblAo.gridx = 11;
+		gbc_lblAo.gridy = 13;
+		panel.add(lblAo, gbc_lblAo);
+		
+		JComboBox comboBox_2 = new JComboBox();
+		GridBagConstraints gbc_comboBox_2 = new GridBagConstraints();
+		gbc_comboBox_2.insets = new Insets(0, 0, 5, 5);
+		gbc_comboBox_2.gridwidth = 3;
+		gbc_comboBox_2.fill = GridBagConstraints.HORIZONTAL;
+		gbc_comboBox_2.gridx = 12;
+		gbc_comboBox_2.gridy = 13;
+		panel.add(comboBox_2, gbc_comboBox_2);
+		
+		JButton btnNewButton = new JButton("Guardar Reservaci\u00F3n");
+		GridBagConstraints gbc_btnNewButton = new GridBagConstraints();
+		gbc_btnNewButton.fill = GridBagConstraints.BOTH;
+		gbc_btnNewButton.gridwidth = 7;
+		gbc_btnNewButton.gridheight = 3;
+		gbc_btnNewButton.insets = new Insets(0, 0, 5, 5);
+		gbc_btnNewButton.gridx = 7;
+		gbc_btnNewButton.gridy = 16;
+		panel.add(btnNewButton, gbc_btnNewButton);
+	}
+}

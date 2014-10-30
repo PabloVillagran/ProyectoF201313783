@@ -1,0 +1,180 @@
+package asdf;
+
+import java.awt.BorderLayout;
+import java.awt.EventQueue;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.JLabel;
+import javax.swing.JTextField;
+import javax.swing.border.TitledBorder;
+import java.awt.GridBagLayout;
+import java.awt.GridBagConstraints;
+import java.awt.Insets;
+import javax.swing.JComboBox;
+import javax.swing.JButton;
+import java.awt.Font;
+
+public class fsad extends JFrame {
+	private JTextField tNombre;
+	private JTextField tCosto;
+	private JTextField tCHuesped;
+	/**
+	 * Create the frame.
+	 */
+	public fsad() {
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(100, 100, 600, 700);
+		getContentPane().setLayout(null);
+		getContentPane().setLayout(null);
+		
+		JPanel panel = new JPanel();
+		panel.setBorder(new TitledBorder(null, "Formulario de Reservacion", TitledBorder.CENTER, TitledBorder.TOP, null, null));
+		panel.setBounds(15, 32, 548, 596);
+		getContentPane().add(panel);
+		panel.setLayout(null);
+		
+		JLabel lNombre = new JLabel("Nombre y Apellido");
+		lNombre.setBounds(36, 31, 133, 20);
+		panel.add(lNombre);
+		
+		tNombre = new JTextField();
+		tNombre.setBounds(236, 28, 271, 26);
+		panel.add(tNombre);
+		tNombre.setColumns(10);
+		
+		JLabel lPais = new JLabel("Pais de Residencia");
+		lPais.setBounds(36, 97, 133, 20);
+		panel.add(lPais);
+		
+		JLabel lIn = new JLabel("Fecha Check-In");
+		lIn.setBounds(36, 163, 135, 20);
+		panel.add(lIn);
+		
+		tCosto = new JTextField();
+		tCosto.setText("$ -");
+		tCosto.setFont(new Font("Tahoma", Font.BOLD, 20));
+		tCosto.setEnabled(false);
+		tCosto.setEditable(false);
+		tCosto.setBounds(236, 485, 271, 26);
+		tCosto.setColumns(10);
+		panel.add(tCosto);
+		
+		JLabel lOut = new JLabel("Fecha Check-Out");
+		lOut.setBounds(36, 229, 129, 20);
+		panel.add(lOut);
+		
+		JComboBox cPais = new JComboBox();
+		cPais.setBounds(236, 94, 271, 26);
+		panel.add(cPais);
+		
+		JLabel lTipoHabitacion = new JLabel("Tipo de Habitaci\u00F3n");
+		lTipoHabitacion.setBounds(36, 295, 133, 20);
+		panel.add(lTipoHabitacion);
+		
+		JComboBox cTipoHabitacion = new JComboBox();
+		cTipoHabitacion.setBounds(236, 292, 271, 26);
+		panel.add(cTipoHabitacion);
+		
+		JLabel lCHuesped = new JLabel("Cantidad de Huespedes");
+		lCHuesped.setBounds(36, 361, 165, 20);
+		panel.add(lCHuesped);
+		
+		tCHuesped = new JTextField();
+		tCHuesped.setBounds(236, 358, 271, 26);
+		panel.add(tCHuesped);
+		tCHuesped.setColumns(10);
+		
+		JLabel lPromo = new JLabel("Promocion");
+		lPromo.setBounds(36, 422, 76, 20);
+		panel.add(lPromo);
+		
+		JComboBox cPromo = new JComboBox();
+		cPromo.setBounds(236, 419, 271, 26);
+		panel.add(cPromo);
+		
+		JLabel lCosto = new JLabel("Costo");
+		lCosto.setBounds(36, 488, 40, 20);
+		panel.add(lCosto);
+		
+		JLabel lblDia = new JLabel("Dia:");
+		lblDia.setBounds(236, 488, 29, 20);
+		panel.add(lblDia);
+		
+		JComboBox comboBox = new JComboBox();
+		comboBox.setBounds(273, 485, 50, 26);
+		panel.add(comboBox);
+		
+		JLabel lblMes = new JLabel("Mes:");
+		lblMes.setBounds(328, 488, 33, 20);
+		panel.add(lblMes);
+		
+		JComboBox comboBox_1 = new JComboBox();
+		comboBox_1.setBounds(366, 485, 36, 26);
+		panel.add(comboBox_1);
+		
+		JLabel lblAo = new JLabel("A\u00F1o:");
+		lblAo.setBounds(407, 488, 35, 20);
+		panel.add(lblAo);
+		
+		JComboBox comboBox_2 = new JComboBox();
+		comboBox_2.setBounds(445, 485, 62, 26);
+		panel.add(comboBox_2);
+		
+		JButton bGuardar = new JButton("Guardar Reservaci\u00F3n");
+		bGuardar.setBounds(328, 527, 179, 60);
+		panel.add(bGuardar);
+		
+		JLabel lDiaIn = new JLabel("Dia:");
+		lDiaIn.setBounds(236, 163, 29, 20);
+		panel.add(lDiaIn);
+		
+		JComboBox cDiaIn = new JComboBox();
+		cDiaIn.setBounds(273, 160, 50, 26);
+		panel.add(cDiaIn);
+		
+		JLabel lMesIn = new JLabel("Mes:");
+		lMesIn.setBounds(328, 163, 33, 20);
+		panel.add(lMesIn);
+		
+		JComboBox cMesIn = new JComboBox();
+		cMesIn.setBounds(366, 160, 36, 26);
+		panel.add(cMesIn);
+		
+		JLabel lAIn = new JLabel("A\u00F1o:");
+		lAIn.setBounds(407, 163, 35, 20);
+		panel.add(lAIn);
+		
+		JComboBox cAIn = new JComboBox();
+		cAIn.setBounds(445, 160, 62, 26);
+		panel.add(cAIn);
+		
+		JLabel lDiaOut = new JLabel("Dia:");
+		lDiaOut.setBounds(236, 229, 29, 20);
+		panel.add(lDiaOut);
+		
+		JComboBox cDiaOut = new JComboBox();
+		cDiaOut.setBounds(273, 226, 50, 26);
+		panel.add(cDiaOut);
+		
+		JLabel lMesOut = new JLabel("Mes:");
+		lMesOut.setBounds(328, 229, 33, 20);
+		panel.add(lMesOut);
+		
+		JComboBox cMesOut = new JComboBox();
+		cMesOut.setBounds(366, 226, 36, 26);
+		panel.add(cMesOut);
+		
+		JLabel lAOut = new JLabel("A\u00F1o:");
+		lAOut.setBounds(407, 229, 35, 20);
+		panel.add(lAOut);
+		
+		JComboBox cAOut = new JComboBox();
+		cAOut.setBounds(445, 226, 62, 26);
+		panel.add(cAOut);
+		
+		JButton bCancelar = new JButton("Cancelar Reservacion");
+		bCancelar.setBounds(36, 527, 189, 60);
+		panel.add(bCancelar);
+	}
+}

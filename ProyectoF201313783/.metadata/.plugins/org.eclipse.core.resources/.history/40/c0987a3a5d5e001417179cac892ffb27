@@ -1,0 +1,28 @@
+package Interfaz;
+
+import java.io.IOException;
+import java.io.File;
+
+public class Sucursal {
+	String ubicacion, moneda;
+	int nhabitaciones;
+	Habitacion[] habitaciones = null;
+	
+	public Sucursal(String ubicacion, int nhabitaciones, String moneda){
+		this.ubicacion = ubicacion;
+		this.nhabitaciones = nhabitaciones;
+		this.moneda = moneda;
+		habitaciones = new Habitacion[nhabitaciones];
+		
+		System.out.println("sucursal creada");
+	}
+	
+	public void checkIn(){
+		
+	}
+	
+	public void checkOut(){
+		
+	}
+	
+}

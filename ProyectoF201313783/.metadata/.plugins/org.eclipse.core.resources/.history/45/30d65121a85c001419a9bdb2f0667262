@@ -1,0 +1,58 @@
+package asdf;
+
+import java.awt.BorderLayout;
+import java.awt.EventQueue;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+import java.awt.GridLayout;
+import javax.swing.JToolBar;
+import javax.swing.JLabel;
+import javax.swing.JTextField;
+
+public class fsad extends JFrame {
+
+	private JPanel contentPane;
+	private JTextField tNombre;
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					fsad frame = new fsad();
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Create the frame.
+	 */
+	public fsad() {
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(100, 100, 600, 700);
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		setContentPane(contentPane);
+		contentPane.setLayout(new GridLayout(6, 2, 10, 15));
+		
+		JLabel lNombre = new JLabel("Nombre y Apellido");
+		contentPane.add(lNombre);
+		
+		tNombre = new JTextField();
+		lNombre.setLabelFor(tNombre);
+		contentPane.add(tNombre);
+		tNombre.setColumns(10);
+		
+		JLabel label = new JLabel("");
+		contentPane.add(label);
+	}
+
+}

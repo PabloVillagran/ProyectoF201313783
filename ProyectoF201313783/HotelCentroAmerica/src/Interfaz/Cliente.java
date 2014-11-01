@@ -1,7 +1,7 @@
 package Interfaz;
 
 public class Cliente {
-	String nombre, paisResidencia;
+	String nombre, paisResidencia, id;
 	
 	public Cliente (){
 		

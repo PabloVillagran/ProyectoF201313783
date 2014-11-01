@@ -9,6 +9,7 @@ import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.io.File;
 
+import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -24,8 +25,6 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.border.TitledBorder;
 
-import asdf.fsad;
-
 @SuppressWarnings("serial")
 public class Interfaz extends JFrame{
 	Sucursal sucursal;
@@ -34,7 +33,7 @@ public class Interfaz extends JFrame{
 	
 	public Interfaz(){
 		super("Hoteles de Centro América");
-		setIconImage(Toolkit.getDefaultToolkit().getImage(fsad.class.getResource("/resources/logo.png")));
+		setIconImage(Toolkit.getDefaultToolkit().getImage(Interfaz.class.getResource("/resources/logo.png")));
 		
 		setSize(600, 600);
 		setLayout(null);
@@ -92,6 +91,12 @@ public class Interfaz extends JFrame{
 		//Panel Inicio
 		JPanel pInicio=new JPanel();
 		pInicio.setLayout(null);
+		JLabel logo = new JLabel();
+		ImageIcon icon = new ImageIcon();
+		icon.setImage(Toolkit.getDefaultToolkit().getImage(Interfaz.class.getResource("/resources/hdc.png")));
+		logo.setBounds(0,0,550,425);
+		logo.setIcon(icon);
+		pInicio.add(logo);
 		
 		//Panel Check-In
 		JPanel pCIn = new JPanel();
@@ -134,9 +139,11 @@ public class Interfaz extends JFrame{
 		pCOut.add(bConfirmar);
 		
 		//Fin de cartas
-		card.add(pInicio, "Inicio");
+		card.add(pInicio, "pInicio");
 		card.add(pCIn,"Check-in");
 		card.add(pCOut,"Check-out");
+		CardLayout cardLayout = (CardLayout) card.getLayout();
+		cardLayout.show(card, "pInicio");
 		
 		JButton bReserv = new JButton("Reservacion");
 		JButton checkIn = new JButton("Check In");
@@ -332,12 +339,12 @@ public class Interfaz extends JFrame{
 		panel.add(tCosto);
 		
 		bCancelar = new JButton("Cancelar");
-		bCancelar.setIcon(new ImageIcon(fsad.class.getResource("/resources/e.png")));
+		bCancelar.setIcon(new ImageIcon(Interfaz.class.getResource("/resources/e.png")));
 		bCancelar.setBounds(36, 527, 196, 60);
 		panel.add(bCancelar);
 
 		bGuardar = new JButton("Guardar");
-		bGuardar.setIcon(new ImageIcon(fsad.class.getResource("/resources/g.png")));
+		bGuardar.setIcon(new ImageIcon(Interfaz.class.getResource("/resources/g.png")));
 		bGuardar.setBounds(311, 527, 196, 60);
 		panel.add(bGuardar);
 		

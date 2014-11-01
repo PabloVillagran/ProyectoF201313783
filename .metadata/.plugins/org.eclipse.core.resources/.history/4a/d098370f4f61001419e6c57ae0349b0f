@@ -1,0 +1,47 @@
+package Interfaz;
+
+public class Habitacion {
+	int numero, edificio, nivel, camas, precio;
+	String sucursal, tipo, cliente;
+	Habitacion siguiente=null;
+	
+	public Habitacion(int tipo){
+		switch (tipo){
+		case 1:
+			precio = 200;
+			break;
+		case 2:
+			precio = 250;
+			break;
+		case 3:
+			precio = 379;
+			break;
+		default:
+			precio = 0;
+			break;
+		}
+	}
+	
+	public Habitacion(String cliente, int numero, int tipo){
+		this.cliente = cliente; 
+		this.numero = numero;
+		switch (tipo){
+		case 1:
+			precio = 200;
+			this.tipo="Sencilla";
+			break;
+		case 2:
+			precio = 250;
+			this.tipo="Doble";
+			break;
+		case 3:
+			precio = 379;
+			this.tipo="Suite-Delux";
+			break;
+		default:
+			precio = 0;
+			break;
+		}
+	}
+	
+}

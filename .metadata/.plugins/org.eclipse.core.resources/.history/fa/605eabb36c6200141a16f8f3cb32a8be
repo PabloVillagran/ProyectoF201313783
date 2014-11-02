@@ -11,21 +11,4 @@ public class Cliente {
 		this.paisResidencia = paisResidencia;
 		this.id = id;
 	}
-
-	public void reservar(int tipoHabitacion){
-		
-	}
-
-	public void cancelarReservacion(){
-		
-	}
-
-	public void comprarPaquete(){
-		
-	}
-
-	public void comparPromocion(){
-		
-	}
-
 }

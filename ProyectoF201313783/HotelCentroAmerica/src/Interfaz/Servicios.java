@@ -1,7 +1,7 @@
 package Interfaz;
 
 public class Servicios {
-	String nombre, ubicacion;
+	String nombre, ubicacion, tipo;
 	public int precio;
 	
 	public void asignarPrecio(int precio){

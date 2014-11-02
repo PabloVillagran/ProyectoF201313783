@@ -244,4 +244,12 @@ public class Sucursal {
 		return resultado;
 	}
 
+	public void cargarPromociones() {
+		
+	}
+
+	public void cargarGlobales() {
+		
+	}
+
 }

@@ -1,0 +1,14 @@
+package Interfaz;
+
+public class Cliente {
+	String nombre, paisResidencia, id;
+	int saldo;
+	Pago pago;
+	
+	public Cliente (){
+		nombre = null;
+		paisResidencia = null;
+		id = null;
+	}
+	
+}

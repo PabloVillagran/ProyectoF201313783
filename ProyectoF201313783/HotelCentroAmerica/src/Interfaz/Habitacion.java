@@ -4,7 +4,7 @@ public class Habitacion {
 	int numero, edificio, nivel, camas, precio;
 	String ubicacion;
 	String sucursal, tipo, cliente;
-	Habitacion siguiente=null;
+	Habitacion siguiente;
 	
 	public Habitacion(int tipo){
 		switch (tipo){

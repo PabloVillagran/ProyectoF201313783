@@ -7,15 +7,14 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 
-import javax.swing.JFileChooser;
-
 public class Sucursal {
-	String ubicacion, moneda, habitPath;
+	String ubicacion, moneda, habitPath, cPath,serviPath,promoPath;
 	int nhabitaciones;
-	File habitfile;
 	BufferedReader br;
 	BufferedWriter bw;
 	Habitacion habitaciones;
+	Cliente clientes;
+	File habitfile, cfile,pfile,sfile;
 	
 	public Sucursal(File file){
 		try {
@@ -24,34 +23,74 @@ public class Sucursal {
 			while((line = br.readLine()) != null){
 				if(line.contains("ubicacion")){
 					ubicacion = line.substring(line.indexOf(":")+1);
+					if(ubicacion.contains("Guatemala"))moneda="Q";
+					if(ubicacion.contains("El Salvador")^ubicacion.contains("Panama"))moneda ="$";
+					if(ubicacion.contains("Honduras"))moneda="L";
+					if(ubicacion.contains("Nicaragua"))moneda="CN";
+					if(ubicacion.contains("Costa Rica"))moneda="CC";
+					if(ubicacion.contains("Belice"))moneda="$B";
 				}
 				if(line.contains("habitaciones")){
 					nhabitaciones = Integer.valueOf(line.substring(line.indexOf(":")+1));
 				}
-				if(line.contains("moneda")){
-					moneda = line.substring(line.indexOf(":")+1);
+				if(line.contains("cPath")){
+					cPath = line.substring(line.indexOf(":")+1);
+					if(cPath == "")cPath=".";
 				}
 				if(line.contains("hPath")){
 					habitPath = line.substring(line.indexOf(":")+1);
-					if(habitPath == ""){
-						habitPath = "c://archivo.txt";
-					}
+					if(habitPath == "")	habitPath = ".";
+				}
+				if(line.contains("pPath")){
+					promoPath = line.substring(line.indexOf(":")+1);
+					if(promoPath == "")	promoPath = ".";
+				}
+				if(line.contains("sPath")){
+					serviPath = line.substring(line.indexOf(":")+1);
+					if(serviPath == "")	serviPath = ".";
 				}
 			}
 			br.close();
-			habitfile = new File(habitPath);
-			if(!habitfile.exists()){
+			if(!(cfile = new File(cPath)).exists()){
+				System.out.println("No se encontro el archivo de clients.");
+				cPath = file.getParent().replace("\\","/")+"/"+ file.getName().replace(".inicio", "c.client");
+				cfile = new File(cPath);
+				bw = new BufferedWriter(new FileWriter(new File(cPath)));
+				bw.write("");
+				bw.flush();
+				bw.close();
+			}
+			if(!(habitfile= new File(habitPath)).exists()){
 				System.out.println("No se encontro el archivo de habitaciones.");
-				JFileChooser fc = new JFileChooser();
-				while(!habitfile.exists()){
-					fc.showOpenDialog(null);
-					if(fc.getSelectedFile().getPath().contains(".habit")){
-						habitfile = fc.getSelectedFile();
-					}
-				}
+				habitPath = file.getParent().replace("\\","/")+"/"+ file.getName().replace(".inicio", "h.habit");
+				habitfile= new File(habitPath);
+				bw = new BufferedWriter(new FileWriter(new File(habitPath)));
+				bw.write("");
+				bw.flush();
+				bw.close();
+			}
+			if(!(pfile= new File(promoPath)).exists()){
+				System.out.println("No se encontro el archivo de Promociones.");
+				promoPath= file.getParent().replace("\\","/")+"/"+ file.getName().replace(".inicio", "pL.promo");
+				pfile = new File(promoPath);
+				bw = new BufferedWriter(new FileWriter(new File(promoPath)));
+				bw.write("");
+				bw.flush();
+				bw.close();
+			}
+			if(!(sfile= new File(serviPath)).exists()){
+				System.out.println("No se encontro el archivo de servicios.");
+				serviPath = file.getParent().replace("\\","/")+"/"+ file.getName().replace(".inicio", "s.servi");
+				sfile = new File(serviPath);
+				bw = new BufferedWriter(new FileWriter(new File(serviPath)));
+				bw.write("");
+				bw.flush();
+				bw.close();
 			}
 			bw = new BufferedWriter(new FileWriter(file));
-			bw.write("ubicacion:"+ubicacion+"\r\n"+"habitaciones:"+nhabitaciones+"\r\n"+"moneda:"+moneda+"\r\n"+"hPath:"+habitfile.getPath()+"\n");
+			bw.write("ubicacion:"+ubicacion+"\r\n"+"habitaciones:"+nhabitaciones+
+					"\r\n"+"cPath:"+cPath+"\r\n"+"hPath:"+habitPath+"\r\n"+"pPath:"+
+					promoPath+"\r\n"+"serviPath:"+serviPath);
 			bw.flush();
 			bw.close();
 		}catch(IOException e){
@@ -170,15 +209,39 @@ public class Sucursal {
 		}
 	}
 	
-	/*public static void main(String args[]){
-		Sucursal sucursal = new Sucursal(new File("C:/Users/PabloDaniel/Documents/GitHub/ProyectoF201313783/ProyectoF201313783/HotelCentroAmerica/a.inicio"));
-		sucursal.checkIn("0000", 104, 1, 1);
-		sucursal.checkIn("2861", 205, 2, 1);
-		sucursal.checkIn("2861", 206, 2, 1);
-		sucursal.checkIn("7896", 440, 1, 3);
-		sucursal.checkOut("2861");
-		sucursal.printHabitaciones();
-		System.out.println("done");
-	}*/
+	public void nuevoCliente(String nombre, String paisResidencia, String id, String moneda){
+		Cliente nuevo = new Cliente(nombre, paisResidencia, id, moneda);
+		nuevo.siguiente= clientes;
+		clientes = nuevo;
+	}
 	
+	public void removerCliente(String id){
+		Cliente referencia = clientes;
+		Cliente anterior = null;
+		if(referencia != null){
+			while(referencia != null){
+				if(id == referencia.id){
+					anterior.siguiente = referencia.siguiente;
+				}else{
+					anterior = referencia;
+					referencia = referencia.siguiente;
+				}
+			}
+		}else{
+			System.out.println("no hay clientes en memoria");
+		}
+	}
+	
+	public Cliente buscarCliente(String id){
+		Cliente referencia = clientes;
+		Cliente resultado = null;
+		while(referencia != null){
+			if(referencia.id == id){
+				resultado = referencia;
+			}
+			referencia = referencia.siguiente;
+		}
+		return resultado;
+	}
+
 }

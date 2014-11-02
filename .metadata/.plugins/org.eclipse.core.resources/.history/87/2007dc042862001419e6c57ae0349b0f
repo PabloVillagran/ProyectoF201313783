@@ -1,0 +1,14 @@
+package Interfaz;
+
+public class Cliente {
+	String nombre, paisResidencia, id;
+	int saldo;
+	Pago pago;
+	
+	public Cliente (String nombre, String paisResidencia,String id){
+		this.nombre = nombre;
+		this.paisResidencia = paisResidencia;
+		this.id = id;
+	}
+	
+}

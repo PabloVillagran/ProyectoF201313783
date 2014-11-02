@@ -7,9 +7,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 
-import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -43,19 +45,49 @@ public class Interfaz extends JFrame{
 		JMenu menu = new JMenu("Sucursal");
 		JMenuItem hotel = new JMenuItem("Abrir Sucursal");
 		hotel.addActionListener(new ActionListener(){
+			@SuppressWarnings("static-access")
 			public void actionPerformed(ActionEvent e){
 				JFileChooser fc = new JFileChooser("Seleccione el Archivo");
-				fc.showOpenDialog(null);
-				file = fc.getSelectedFile();
-				while(!file.exists() ||(fc.showOpenDialog(null) == JFileChooser.CANCEL_OPTION)){
-					fc.showOpenDialog(null);
+				if(fc.showOpenDialog(null) != fc.CANCEL_OPTION){
 					if(fc.getSelectedFile().getPath().contains(".inicio")){
 						file = fc.getSelectedFile();
+						sucursal = new Sucursal(file);
 					}else{
-						errorDeCarga(true);
+						errorDeCarga();
 					}
 				}
-				sucursal = new Sucursal(file);
+			}
+		});
+		JMenuItem crear = new JMenuItem("Nueva Sucursal");
+		crear.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e){
+				JFileChooser fc = new JFileChooser();
+				String dir="";
+				fc.setDialogTitle("Directorio de Destino");
+				fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+				fc.setAcceptAllFileFilterUsed(false);
+				if(fc.showOpenDialog(null)== JFileChooser.APPROVE_OPTION){
+					dir = fc.getSelectedFile().toString();
+				}
+				String nombre = JOptionPane.showInputDialog("Nombre de la Sucursal","adsf");
+				try {
+					BufferedWriter bw = new BufferedWriter(new FileWriter(new File(dir+"/"+nombre+".inicio")));
+					bw.write("ubicacion:"+JOptionPane.showInputDialog("ubicacion:")+"\r\n");
+					bw.write("habitaciones:"+JOptionPane.showInputDialog("Numero de Habitaciones:","552")+"\r\n");
+					bw.write("moneda:"+JOptionPane.showInputDialog("moneda")+"\r\n"+
+							"cPath:\r\nhPath:\r\npPath:\r\nsPath:\r\n");
+					bw.flush();
+					bw.close();
+				} catch (IOException e1) {
+					System.out.print(e1);
+				}
+				
+			}
+		});
+		JMenuItem salir = new JMenuItem("Salir");
+		salir.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e){
+				System.exit(0);
 			}
 		});
 		JMenu reportes = new JMenu("Reportes");
@@ -70,13 +102,8 @@ public class Interfaz extends JFrame{
 				
 			}
 		});
-		JMenuItem salir = new JMenuItem("Salir");
-		salir.addActionListener(new ActionListener(){
-			public void actionPerformed(ActionEvent e){
-				System.exit(0);
-			}
-		});
 		menu.add(hotel);
+		menu.add(crear);
 		menu.addSeparator();
 		menu.add(salir);
 		mBar.add(menu);
@@ -190,10 +217,8 @@ public class Interfaz extends JFrame{
 		setVisible(true);
 	}
 	
-	public void errorDeCarga(boolean error){
-		if(error){
-			JOptionPane.showMessageDialog(this, "Error al cargar el archivo", "Error", JOptionPane.ERROR_MESSAGE);
-		}
+	public void errorDeCarga(){
+		JOptionPane.showMessageDialog(this, "Error al cargar el archivo", "Error", JOptionPane.ERROR_MESSAGE);
 	}
 	
 	@SuppressWarnings({ "rawtypes", "unchecked" })
@@ -306,8 +331,16 @@ public class Interfaz extends JFrame{
 		
 		String[]tipo={"","Sencilla","Doble","Suite Delux"};
 		cTipoHabitacion = new JComboBox(tipo);
-		cTipoHabitacion.setBounds(236, 292, 271, 26);
+		cTipoHabitacion.setBounds(236, 292, 100, 26);
 		panel.add(cTipoHabitacion);
+		
+		JLabel lCantidadHabitacion = new JLabel("Cantidad:");
+		lCantidadHabitacion.setBounds(386, 295, 70,20);
+		panel.add(lCantidadHabitacion);
+		
+		JTextField tCantidad = new JTextField();
+		tCantidad.setBounds(445, 292, 62, 26);
+		panel.add(tCantidad);
 		
 		lCHuesped = new JLabel("Cantidad de Huespedes");
 		lCHuesped.setBounds(36, 361, 165, 20);
@@ -351,6 +384,10 @@ public class Interfaz extends JFrame{
 		reservacion.getContentPane().add(panel);
 		reservacion.setVisible(true);
 		reservacion.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+	}
+	
+	private void servicios(){
+		
 	}
 	
 	private void busqueda(){

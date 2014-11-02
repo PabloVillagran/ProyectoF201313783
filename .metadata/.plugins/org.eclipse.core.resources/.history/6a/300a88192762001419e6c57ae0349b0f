@@ -1,0 +1,12 @@
+package Interfaz;
+
+public class Cliente {
+	String nombre, paisResidencia, id;
+	
+	public Cliente (){
+		nombre = null;
+		paisResidencia = null;
+		id = null;
+	}
+	
+}

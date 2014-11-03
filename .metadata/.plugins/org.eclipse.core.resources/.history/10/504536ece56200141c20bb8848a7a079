@@ -15,7 +15,7 @@ public class Servicios {
 	}
 	
 	public void mantenimiento(){
-		//costo por mes! para estadisticas.
+		
 	}
 	
 }

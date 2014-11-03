@@ -490,12 +490,7 @@ public class Interfaz extends JFrame{
 	}
 	
 	private void servicios(){
-		InnerFrame service = new InnerFrame("Crear servicios");
-		service.setBounds(0,0,600,600);
-		service.setLocationRelativeTo(null);
-		service.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		
-		service.setVisible(true);
 	}
 	
 	private void busqueda(){

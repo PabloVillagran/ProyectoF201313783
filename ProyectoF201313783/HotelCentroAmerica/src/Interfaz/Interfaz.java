@@ -43,6 +43,8 @@ public class Interfaz extends JFrame{
 	Integer[]dia=new Integer[31];
 	Integer[]mes=new Integer[12];
 	Integer[]aios=new Integer[10];
+	int id;
+	Cliente clientes;
 	
 	public Interfaz(){
 		super("Hoteles de Centro América");
@@ -347,7 +349,6 @@ public class Interfaz extends JFrame{
 		reservacion.setResizable(false);
 		reservacion.setLocationRelativeTo(null);
 		reservacion.setParent(this);
-		Cliente rclient = new Cliente(); 
 		
 		JLabel lNombre, lPais, lIn ,lOut,lTipoHabitacion, lCHuesped,lPromo,lCosto,lDiaIn,lDiaOut,lMesIn,lMesOut,lAIn,lAOut;
 		JTextField tNombre,tCHuesped,tCosto;
@@ -498,11 +499,8 @@ public class Interfaz extends JFrame{
 		bGuardar.setBounds(311, 527, 196, 60);
 		bGuardar.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
-				rclient.nombre = tNombre.getText();
-				rclient.paisResidencia=cPais.getSelectedItem().toString();
 				int fechaI = Integer.parseInt(cDiaIn.getSelectedItem().toString());
 				int fechaF = Integer.parseInt(cDiaIn.getSelectedItem().toString());
-				System.out.println(rclient.paisResidencia);
 				JDialog guardar = new JDialog(reservacion,"Guardar?");
 				guardar.setBounds(0,0,250,250);
 				guardar.setResizable(false);
@@ -511,19 +509,28 @@ public class Interfaz extends JFrame{
 				
 				JTextArea display = new JTextArea();
 				display.setBounds(7,15,143,179);
+				display.setText("Nombre: "+tNombre.getText()+"\r\n"
+						+"Check-In: "+cDiaIn.getSelectedItem()+"/"+cMesIn.getSelectedItem().toString()+"/"+cAIn.getSelectedItem().toString()
+						+"\r\nCheck-out: "+cDiaOut.getSelectedItem().toString()+"/"+cMesOut.getSelectedItem().toString()+"/"+cAOut.getSelectedItem().toString()
+						+"\r\n"+tCantidad.getText()+" habitaciones "+cTipoHabitacion.getSelectedItem().toString()+"\r\n"
+						+"reserva para "+tCHuesped.getText()+" personas.");
+						
 				display.setEditable(false);
 				display.setAutoscrolls(true);
 				guardar.add(display);
 				
-				int s = JOptionPane.showConfirmDialog(null,"¿Es primera vez que nos visita?","cliente",JOptionPane.YES_NO_OPTION);
+				int s = JOptionPane.showConfirmDialog(null,"¿Es primera vez que nos visita?","Cliente",JOptionPane.YES_NO_OPTION);
 				JButton ok = new JButton("OK");
 				ok.setBounds(157,85,80,50);
 				ok.addActionListener(new ActionListener(){
 					public void actionPerformed(ActionEvent e){
 						if(s==JOptionPane.YES_OPTION){
-							
+							nuevoCliente(id,tNombre.getText(), cPais.getSelectedItem().toString(), sucursal.moneda);
+							id++;
 						}else{
-							
+							String id = JOptionPane.showInputDialog(null,"Ingrese su id");
+							Cliente existe = buscarCliente(id);
+							existe.reservar(cTipoHabitacion.getSelectedIndex());
 						}
 					}
 				});
@@ -664,6 +671,41 @@ public class Interfaz extends JFrame{
 
 	private void reportes(){
 		
+	}
+	
+	public void nuevoCliente(int id,String nombre, String paisResidencia, String moneda){
+		Cliente nuevo = new Cliente(id,nombre, paisResidencia, moneda);
+		nuevo.siguiente= clientes;
+		clientes = nuevo;
+	}
+	
+	public void removerCliente(String id){
+		Cliente referencia = clientes;
+		Cliente anterior = null;
+		if(referencia != null){
+			while(referencia != null){
+				if(id == referencia.id){
+					anterior.siguiente = referencia.siguiente;
+				}else{
+					anterior = referencia;
+					referencia = referencia.siguiente;
+				}
+			}
+		}else{
+			System.out.println("no hay clientes en memoria");
+		}
+	}
+	
+	public Cliente buscarCliente(String id){
+		Cliente referencia = clientes;
+		Cliente resultado = null;
+		while(referencia != null){
+			if(referencia.id == id){
+				resultado = referencia;
+			}
+			referencia = referencia.siguiente;
+		}
+		return resultado;
 	}
 	
 	public class InnerFrame extends JFrame{

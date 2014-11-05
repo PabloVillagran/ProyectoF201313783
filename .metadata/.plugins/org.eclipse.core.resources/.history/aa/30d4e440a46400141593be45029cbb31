@@ -5,6 +5,8 @@ import java.awt.Font;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.io.BufferedWriter;
@@ -12,6 +14,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
+import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -19,13 +22,17 @@ import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JRadioButton;
+import javax.swing.JSpinner;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.SpinnerNumberModel;
 import javax.swing.border.TitledBorder;
 
 @SuppressWarnings("serial")
@@ -33,6 +40,10 @@ public class Interfaz extends JFrame{
 	Sucursal sucursal;
 	String principal;
 	File file=null;
+	Integer[]dia=new Integer[31];
+	Integer[]mes=new Integer[12];
+	Integer[]aios=new Integer[10];
+	Cliente clientes;
 	
 	public Interfaz(){
 		super("Hoteles de Centro América");
@@ -114,6 +125,19 @@ public class Interfaz extends JFrame{
 			}
 		});
 		
+		JMenu servicios = new JMenu("Servicios");
+		JMenuItem restaurantes = new JMenuItem("Restaurantes");
+		restaurantes.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e){
+				servicios();
+			}
+		});
+		JMenuItem mostrar = new JMenuItem("Mostrar todos");
+		mostrar.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e){
+				mostrarServicios();
+			}
+		});
 		hotel.add(abrir);
 		hotel.add(crear);
 		hotel.addSeparator();
@@ -122,9 +146,12 @@ public class Interfaz extends JFrame{
 		promocion.add(aLocales);
 		promocion.add(aGlobales);
 		promocion.add(cLocales);
+		servicios.add(restaurantes);
+		servicios.add(mostrar);
 		mBar.add(hotel);
 		mBar.add(reportes);
 		mBar.add(promocion);
+		mBar.add(servicios);
 
 		JPanel card = new JPanel();
 		card.setBorder(null);
@@ -145,9 +172,47 @@ public class Interfaz extends JFrame{
 		JPanel pCIn = new JPanel();
 		pCIn.setLayout(null);
 		
-		JLabel lContenedor = new JLabel("HOLA MUNDO");
-		lContenedor.setBounds(50,50,100,100);
+		JLabel lContenedor = new JLabel();
+		ImageIcon map = new ImageIcon();
+		map.setImage(Toolkit.getDefaultToolkit().getImage(Interfaz.class.getResource("/resources/map1.jpg")));
+		lContenedor.setIcon(map);
 		pCIn.add(lContenedor);
+		
+		JTextField numero = new JTextField("Ingrese numero de reservacion");
+		numero.setBounds(75,25,400,35);
+		numero.setHorizontalAlignment(JTextField.CENTER);
+		numero.addMouseListener(new MouseAdapter(){public void mouseClicked(MouseEvent e){numero.setText("");}});
+		pCIn.add(numero);
+		
+		/*no implementado...
+		JButton niveles[]=new JButton[3];
+		int x=26,y=150,w=50,h=50;
+		for(int i=0;i<3; i++){
+		 	niveles[i] = new JButton("N"+(i+1));
+			niveles[i].setBounds(x,y,w,h);
+			niveles[i].addActionListener(new ActionListener(){
+				public void actionPerformed(ActionEvent e){
+					JButton event = (JButton)e.getSource();
+					String nivel = event.getActionCommand();
+					/*if(nivel.contains("1")){
+						map.setImage(Toolkit.getDefaultToolkit().getImage(Interfaz.class.getResource("/resources/map1.jpg")));
+					}
+					if(nivel.contains("2")){
+						map.setImage(Toolkit.getDefaultToolkit().getImage(Interfaz.class.getResource("/resources/map2.jpg")));
+					}
+					if(nivel.contains("3")){
+						map.setImage(Toolkit.getDefaultToolkit().getImage(Interfaz.class.getResource("/resources/map3.jpg")));
+					}
+					lContenedor.setIcon(map);
+					construct(nivel, pCIn);				
+				}
+			});
+			y+=70;
+			niveles[i].setVisible(true);
+		}
+		pCIn.add(niveles[0]);pCIn.add(niveles[1]);pCIn.add(niveles[2]);
+		lContenedor.setBounds(10,10,550,425);
+		*/
 		
 		//Panel Check-Out
 		JPanel pCOut = new JPanel();
@@ -226,6 +291,10 @@ public class Interfaz extends JFrame{
 				
 			}
 		});
+		for(int i=0;i<=30;i++)dia[i]=i+1;
+		for(int i=0;i<=11;i++)mes[i]=i+1;
+		int temp=2014;
+		for(int i=0;i<=9;i++){aios[i]= temp;temp++;}
 		
 		add(bReserv); add(checkIn); add(checkOut);
 		add(card);
@@ -233,6 +302,40 @@ public class Interfaz extends JFrame{
 		setVisible(true);
 	}
 	
+	protected void mostrarServicios() {
+		
+	}
+
+	protected void construct(String nivel, JPanel panel) {
+		int x=75,y=50,w=20,h=20;
+		if(nivel.contains("N1")){
+			JButton modulos[] = new JButton[6];
+			for(int i=0;i<modulos.length;i++){
+				modulos[i].setBounds(x,y,w,h);
+				panel.add(modulos[i]);
+			}
+		}
+		if(nivel.contains("N2")){
+			JButton modulos[] = new JButton[7];
+			for(int i=0;i<modulos.length;i++){
+				
+				panel.add(modulos[i]);
+			}
+		}
+		if(nivel.contains("N3")){
+			JButton modulos[] = new JButton[4];
+			for(int i=0;i<modulos.length;i++){
+				
+				panel.add(modulos[i]);
+			}		
+		}
+		class Action implements ActionListener{
+			public void actionPerformed(ActionEvent e) {
+				
+			}
+		}
+	}
+
 	public void errorDeCarga(){
 		JOptionPane.showMessageDialog(this, "Error al cargar el archivo", "Error", JOptionPane.ERROR_MESSAGE);
 	}
@@ -286,13 +389,6 @@ public class Interfaz extends JFrame{
 		lOut.setBounds(36, 229, 129, 20);
 		panel.add(lOut);
 		
-		Integer[]dia=new Integer[31];
-		for(int i=0;i<=30;i++)dia[i]=i+1;
-		Integer[]mes=new Integer[12];
-		for(int i=0;i<=11;i++)mes[i]=i+1;
-		Integer[]aios=new Integer[10];
-		int temp=2014;
-		for(int i=0;i<=9;i++){aios[i]= temp;temp++;}
 		
 		lDiaIn = new JLabel("Dia:");
 		lDiaIn.setBounds(236, 163, 29, 20);
@@ -420,11 +516,16 @@ public class Interfaz extends JFrame{
 				display.setAutoscrolls(true);
 				guardar.add(display);
 				
+				int s = JOptionPane.showConfirmDialog(null,"¿Es primera vez que nos visita?","Cliente",JOptionPane.YES_NO_OPTION);
 				JButton ok = new JButton("OK");
 				ok.setBounds(157,85,80,50);
 				ok.addActionListener(new ActionListener(){
 					public void actionPerformed(ActionEvent e){
-						
+						if(s==JOptionPane.YES_OPTION){
+							nuevoCliente(tNombre.getText(), cPais.getSelectedItem().toString(), );
+						}else{
+							
+						}
 					}
 				});
 				
@@ -441,20 +542,164 @@ public class Interfaz extends JFrame{
 	}
 	
 	private void servicios(){
+		InnerFrame service = new InnerFrame("Crear servicios");
+		service.setBounds(0,0,600,600);
+		service.setLocationRelativeTo(null);
+		service.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		
+		service.setVisible(true);
 	}
 	
 	private void busqueda(){
 		
 	}
 	
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	private void promociones(){
 		InnerFrame promos = new InnerFrame("Crear Promocion");
+		promos.setBounds(0,0,435,700);
+		promos.setLayout(null);
+		promos.setResizable(false);
+		promos.setLocationRelativeTo(null);
+		promos.setParent(this);
+		promos.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		
+		JPanel pPromos = new JPanel();
+		pPromos.setBorder(new TitledBorder(null, "Promociones", TitledBorder.CENTER, TitledBorder.ABOVE_TOP, null, null));
+		pPromos.setBounds(15, 15, 396, 576);
+		promos.add(pPromos);
+		pPromos.setLayout(null);
+		
+		JLabel lDispo = new JLabel("Disponibilidad");
+		lDispo.setBounds(25, 58, 100, 20);
+		pPromos.add(lDispo);
+		
+		ButtonGroup rbGroup = new ButtonGroup();
+		
+		JRadioButton rbLocalDispo = new JRadioButton("Local");
+		rbLocalDispo.setBounds(179, 54, 69, 29);
+		pPromos.add(rbLocalDispo);
+		rbGroup.add(rbLocalDispo);
+		
+		JRadioButton rbGlobalDispo = new JRadioButton("Global");
+		rbGlobalDispo.setBounds(290, 54, 77, 29);
+		pPromos.add(rbGlobalDispo);
+		rbGroup.add(rbGlobalDispo);
+		
+		JLabel lNombre = new JLabel("Nombre");
+		lNombre.setBounds(25, 121, 57, 20);
+		pPromos.add(lNombre);
+		
+		JTextField tPromoName = new JTextField();
+		tPromoName.setBounds(130, 118, 237, 26);
+		pPromos.add(tPromoName);
+		tPromoName.setColumns(10);
+		
+		JLabel lPrecio = new JLabel("Precio");
+		lPrecio.setBounds(25, 182, 43, 20);
+		pPromos.add(lPrecio);
+		
+		JSpinner sPrecio = new JSpinner();
+		sPrecio.setBounds(267, 179, 100, 26);
+		sPrecio.setModel(new SpinnerNumberModel(new Integer(50), null, null, new Integer(1)));
+		pPromos.add(sPrecio);
+		
+		JLabel lFInicio = new JLabel("Fecha Inicio");
+		lFInicio.setBounds(25, 240, 84, 20);
+		pPromos.add(lFInicio);
+		
+		JLabel lFFin = new JLabel("Fecha Fin");
+		lFFin.setBounds(25, 295, 66, 20);
+		pPromos.add(lFFin);
+		
+		JComboBox cDInico = new JComboBox(dia);
+		cDInico.setBounds(155, 237, 41, 26);
+		pPromos.add(cDInico);
+		
+		JComboBox cMInicio = new JComboBox(mes);
+		cMInicio.setBounds(211, 237, 41, 26);
+		pPromos.add(cMInicio);
+		
+		JComboBox cAInicio = new JComboBox(aios);
+		cAInicio.setBounds(267, 237, 65, 26);
+		pPromos.add(cAInicio);
+		
+		JComboBox cDFin = new JComboBox(dia);
+		cDFin.setBounds(155, 289, 41, 26);
+		pPromos.add(cDFin);
+		
+		JComboBox cMFin = new JComboBox(mes);
+		cMFin.setBounds(211, 289, 41, 26);
+		pPromos.add(cMFin);
+		
+		JComboBox cAFin = new JComboBox(aios);
+		cAFin.setBounds(267, 289, 65, 26);
+		pPromos.add(cAFin);
+		
+		JList listA = new JList();
+		listA.setBounds(25, 376, 162, 151);
+		pPromos.add(listA);
+		
+		JButton bAgregar = new JButton("Agregar");
+		bAgregar.setBounds(25, 531, 162, 29);
+		pPromos.add(bAgregar);
+		
+		JList listQ = new JList();
+		listQ.setBounds(205, 376, 162, 151);
+		pPromos.add(listQ);
+		
+		JButton bQuitar = new JButton("Quitar");
+		bQuitar.setBounds(205, 531, 162, 29);
+		pPromos.add(bQuitar);
+		
+		JLabel lServicios = new JLabel("Servicios:");
+		lServicios.setBounds(25, 340, 69, 20);
+		pPromos.add(lServicios);
+		
+		JButton bGuardar = new JButton("Guardar");
+		bGuardar.setBounds(215, 599, 190, 49);
+		bGuardar.setIcon(new ImageIcon(Interfaz.class.getResource("/resources/g.png")));
+		promos.add(bGuardar);
+		promos.setVisible(true);
 	}
 
 	private void reportes(){
 		
+	}
+	
+	public void nuevoCliente(String nombre, String paisResidencia, String moneda){
+		Cliente nuevo = new Cliente(nombre, paisResidencia, moneda);
+		nuevo.siguiente= clientes;
+		clientes = nuevo;
+	}
+	
+	public void removerCliente(String id){
+		Cliente referencia = clientes;
+		Cliente anterior = null;
+		if(referencia != null){
+			while(referencia != null){
+				if(id == referencia.id){
+					anterior.siguiente = referencia.siguiente;
+				}else{
+					anterior = referencia;
+					referencia = referencia.siguiente;
+				}
+			}
+		}else{
+			System.out.println("no hay clientes en memoria");
+		}
+	}
+	
+	public Cliente buscarCliente(String id){
+		Cliente referencia = clientes;
+		Cliente resultado = null;
+		while(referencia != null){
+			if(referencia.id == id){
+				resultado = referencia;
+			}
+			referencia = referencia.siguiente;
+		}
+		return resultado;
 	}
 	
 	public class InnerFrame extends JFrame{

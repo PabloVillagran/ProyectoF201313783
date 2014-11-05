@@ -7,7 +7,7 @@ public class Cliente {
 	Pago cuenta;
 	Cliente siguiente;
 	
-	public Cliente (int id,String nombre,String paisResidencia, String moneda){
+	public Cliente (String nombre,String paisResidencia,String moneda){
 		this.nombre = nombre;
 		this.paisResidencia = paisResidencia;
 		cuenta = new Pago(0, moneda);

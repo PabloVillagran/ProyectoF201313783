@@ -13,6 +13,7 @@ public class Sucursal {
 	BufferedReader br;
 	BufferedWriter bw;
 	Habitacion habitaciones;
+	Cliente clientes;
 	File habitfile, cfile,pfile,sfile;
 	
 	public Sucursal(File file){
@@ -206,6 +207,41 @@ public class Sucursal {
 			referencia = referencia.siguiente;
 			}
 		}
+	}
+	
+	public void nuevoCliente(String nombre, String paisResidencia, String moneda){
+		Cliente nuevo = new Cliente(nombre, paisResidencia, moneda);
+		nuevo.siguiente= clientes;
+		clientes = nuevo;
+	}
+	
+	public void removerCliente(String id){
+		Cliente referencia = clientes;
+		Cliente anterior = null;
+		if(referencia != null){
+			while(referencia != null){
+				if(id == referencia.id){
+					anterior.siguiente = referencia.siguiente;
+				}else{
+					anterior = referencia;
+					referencia = referencia.siguiente;
+				}
+			}
+		}else{
+			System.out.println("no hay clientes en memoria");
+		}
+	}
+	
+	public Cliente buscarCliente(String id){
+		Cliente referencia = clientes;
+		Cliente resultado = null;
+		while(referencia != null){
+			if(referencia.id == id){
+				resultado = referencia;
+			}
+			referencia = referencia.siguiente;
+		}
+		return resultado;
 	}
 
 	public void cargarPromociones() {

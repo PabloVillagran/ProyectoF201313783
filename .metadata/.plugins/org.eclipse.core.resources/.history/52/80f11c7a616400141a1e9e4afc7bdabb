@@ -209,8 +209,8 @@ public class Sucursal {
 		}
 	}
 	
-	public void nuevoCliente(String nombre, String paisResidencia, String moneda){
-		Cliente nuevo = new Cliente(nombre, paisResidencia, moneda);
+	public void nuevoCliente(String nombre, String paisResidencia, String id, String moneda){
+		Cliente nuevo = new Cliente(nombre, paisResidencia, id, moneda);
 		nuevo.siguiente= clientes;
 		clientes = nuevo;
 	}

@@ -125,16 +125,16 @@ public class Interfaz extends JFrame{
 		});
 		
 		JMenu servicios = new JMenu("Servicios");
-		JMenuItem restaurantes = new JMenuItem("Restaurantes");
-		restaurantes.addActionListener(new ActionListener(){
+		JMenuItem crears = new JMenuItem("Crear Servicio");
+		crears.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
-				servicios();
+				
 			}
 		});
 		JMenuItem mostrar = new JMenuItem("Mostrar todos");
 		mostrar.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
-				mostrarServicios();
+				
 			}
 		});
 		hotel.add(abrir);
@@ -145,12 +145,11 @@ public class Interfaz extends JFrame{
 		promocion.add(aLocales);
 		promocion.add(aGlobales);
 		promocion.add(cLocales);
-		servicios.add(restaurantes);
+		servicios.add(crears);
 		servicios.add(mostrar);
 		mBar.add(hotel);
 		mBar.add(reportes);
 		mBar.add(promocion);
-		mBar.add(servicios);
 
 		JPanel card = new JPanel();
 		card.setBorder(null);
@@ -183,35 +182,27 @@ public class Interfaz extends JFrame{
 		numero.addMouseListener(new MouseAdapter(){public void mouseClicked(MouseEvent e){numero.setText("");}});
 		pCIn.add(numero);
 		
-		/*no implementado...
 		JButton niveles[]=new JButton[3];
 		int x=26,y=150,w=50,h=50;
 		for(int i=0;i<3; i++){
-		 	niveles[i] = new JButton("N"+(i+1));
+			niveles[i] = new JButton("N"+(i+1));
 			niveles[i].setBounds(x,y,w,h);
 			niveles[i].addActionListener(new ActionListener(){
 				public void actionPerformed(ActionEvent e){
 					JButton event = (JButton)e.getSource();
 					String nivel = event.getActionCommand();
-					/*if(nivel.contains("1")){
-						map.setImage(Toolkit.getDefaultToolkit().getImage(Interfaz.class.getResource("/resources/map1.jpg")));
-					}
-					if(nivel.contains("2")){
-						map.setImage(Toolkit.getDefaultToolkit().getImage(Interfaz.class.getResource("/resources/map2.jpg")));
-					}
-					if(nivel.contains("3")){
-						map.setImage(Toolkit.getDefaultToolkit().getImage(Interfaz.class.getResource("/resources/map3.jpg")));
-					}
-					lContenedor.setIcon(map);
+					if(nivel.contains("1"))map.setImage(Toolkit.getDefaultToolkit().getImage(Interfaz.class.getResource("/resources/map1.jpg")));
+					if(nivel.contains("2"))map.setImage(Toolkit.getDefaultToolkit().getImage(Interfaz.class.getResource("/resources/map2.jpg")));
+					if(nivel.contains("3"))map.setImage(Toolkit.getDefaultToolkit().getImage(Interfaz.class.getResource("/resources/map3.jpg")));
 					construct(nivel, pCIn);				
 				}
 			});
 			y+=70;
 			niveles[i].setVisible(true);
+			niveles[i].setFocusCycleRoot(true);
+			pCIn.add(niveles[i]);
 		}
-		pCIn.add(niveles[0]);pCIn.add(niveles[1]);pCIn.add(niveles[2]);
 		lContenedor.setBounds(10,10,550,425);
-		*/
 		
 		//Panel Check-Out
 		JPanel pCOut = new JPanel();
@@ -301,37 +292,15 @@ public class Interfaz extends JFrame{
 		setVisible(true);
 	}
 	
-	protected void mostrarServicios() {
-		
-	}
-
 	protected void construct(String nivel, JPanel panel) {
-		int x=75,y=50,w=20,h=20;
 		if(nivel.contains("N1")){
-			JButton modulos[] = new JButton[6];
-			for(int i=0;i<modulos.length;i++){
-				modulos[i].setBounds(x,y,w,h);
-				panel.add(modulos[i]);
-			}
+			
 		}
 		if(nivel.contains("N2")){
-			JButton modulos[] = new JButton[7];
-			for(int i=0;i<modulos.length;i++){
-				
-				panel.add(modulos[i]);
-			}
+			
 		}
 		if(nivel.contains("N3")){
-			JButton modulos[] = new JButton[4];
-			for(int i=0;i<modulos.length;i++){
-				
-				panel.add(modulos[i]);
-			}		
-		}
-		class Action implements ActionListener{
-			public void actionPerformed(ActionEvent e) {
-				
-			}
+			
 		}
 	}
 
@@ -515,16 +484,11 @@ public class Interfaz extends JFrame{
 				display.setAutoscrolls(true);
 				guardar.add(display);
 				
-				int s = JOptionPane.showConfirmDialog(null,"¿Es primera vez que nos visita?","cliente",JOptionPane.YES_NO_OPTION);
 				JButton ok = new JButton("OK");
 				ok.setBounds(157,85,80,50);
 				ok.addActionListener(new ActionListener(){
 					public void actionPerformed(ActionEvent e){
-						if(s==JOptionPane.YES_OPTION){
-							
-						}else{
-							
-						}
+						
 					}
 				});
 				

@@ -515,16 +515,11 @@ public class Interfaz extends JFrame{
 				display.setAutoscrolls(true);
 				guardar.add(display);
 				
-				int s = JOptionPane.showConfirmDialog(null,"¿Es primera vez que nos visita?","cliente",JOptionPane.YES_NO_OPTION);
 				JButton ok = new JButton("OK");
 				ok.setBounds(157,85,80,50);
 				ok.addActionListener(new ActionListener(){
 					public void actionPerformed(ActionEvent e){
-						if(s==JOptionPane.YES_OPTION){
-							
-						}else{
-							
-						}
+						
 					}
 				});
 				

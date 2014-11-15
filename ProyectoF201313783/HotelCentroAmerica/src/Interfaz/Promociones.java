@@ -2,14 +2,20 @@ package Interfaz;
 
 public class Promociones {
 	public String nombre,fecha, applyTo;
-	public int applydays, precio, valid_ate;
+	public int applydays, valid_ate;
+	String precio;
 	Servicios servicio;
 	Promociones siguiente;
 	
-	public Promociones(String nombre, String fecha, String applyTo){
+	public Promociones(String nombre, String fecha, String applyTo, String precio){
 		this.nombre = nombre;
 		this.fecha = fecha;
 		this.applyTo =applyTo;
+		this.precio = precio;
 		siguiente = null;
+	}
+	
+	public boolean exists(){
+		return true;
 	}
 }

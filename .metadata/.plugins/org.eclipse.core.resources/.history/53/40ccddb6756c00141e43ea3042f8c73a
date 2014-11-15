@@ -1,0 +1,22 @@
+package Interfaz;
+
+public class Servicios {
+	String nombre, ubicacion, tipo;
+	public float precio;
+	Servicios siguiente;
+	
+	public Servicios(String nombre, String ubicacion, String tipo){
+		this.tipo = tipo;
+		this.nombre = nombre;
+		this.ubicacion = ubicacion;
+	}
+
+	public void asignarPrecio(float precio){
+		this.precio = precio;
+	}
+	
+	public void mantenimiento(float ingresos){
+		
+	}
+	
+}

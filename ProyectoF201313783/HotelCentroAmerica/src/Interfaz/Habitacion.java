@@ -5,6 +5,7 @@ public class Habitacion {
 	String ubicacion;
 	String sucursal, tipo, cliente;
 	Habitacion siguiente;
+	Servicios servicios=null;
 	
 	public Habitacion(int tipo){
 		switch (tipo){
@@ -52,6 +53,11 @@ public class Habitacion {
 			camas = 0;
 			break;
 		}
+	}
+	
+	public void agregarServicios(Servicios s){
+		s.siguiente= servicios;
+		servicios = s;
 	}
 	
 }

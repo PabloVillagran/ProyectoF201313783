@@ -1,0 +1,25 @@
+package Interfaz;
+
+import com.itextpdf.text.Document;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.pdf.PdfWriter;
+
+public class Reportes {
+	String fecha, hora;
+	
+	public void estadoDeCuenta(){
+		
+	}
+	
+	public void serviciosXHabitacion(){
+		
+	}
+	
+	public void facturacion(){
+		
+	}
+	
+	public Reportes(){
+		
+	}
+}

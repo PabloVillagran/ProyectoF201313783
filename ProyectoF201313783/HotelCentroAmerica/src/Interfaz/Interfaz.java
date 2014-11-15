@@ -9,10 +9,14 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 
 import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
@@ -39,12 +43,12 @@ import javax.swing.border.TitledBorder;
 public class Interfaz extends JFrame{
 	Sucursal sucursal;
 	String principal;
-	File file=null;
+	File file=null,client;
 	Integer[]dia=new Integer[31];
 	Integer[]mes=new Integer[12];
 	Integer[]aios=new Integer[10];
-	int id;
 	Cliente clientes;
+	Reportes reporte;
 	
 	public Interfaz(){
 		super("Hoteles de Centro América");
@@ -58,6 +62,7 @@ public class Interfaz extends JFrame{
 		JMenu hotel = new JMenu("Sucursal");
 		JMenuItem abrir = new JMenuItem("Abrir Sucursal");
 		abrir.addActionListener(new ActionListener(){
+			
 			@SuppressWarnings("static-access")
 			public void actionPerformed(ActionEvent e){
 				JFileChooser fc = new JFileChooser("Seleccione el Archivo");
@@ -82,7 +87,7 @@ public class Interfaz extends JFrame{
 				if(fc.showOpenDialog(null)== JFileChooser.APPROVE_OPTION){
 					dir = fc.getSelectedFile().toString();
 				}
-				String nombre = JOptionPane.showInputDialog("Nombre de la Sucursal","adsf");
+				String nombre = JOptionPane.showInputDialog("Nombre de la Sucursal","Nombre");
 				try {
 					BufferedWriter bw = new BufferedWriter(new FileWriter(new File(dir+"/"+nombre+".inicio")));
 					bw.write("ubicacion:"+JOptionPane.showInputDialog("ubicacion:")+"\r\n");
@@ -104,7 +109,43 @@ public class Interfaz extends JFrame{
 			}
 		});
 		JMenu reportes = new JMenu("Reportes");
-		JMenuItem generar = new JMenuItem("Generar");
+		JMenuItem cuentaCliente = new JMenuItem("Estado de Cuenta");
+		JMenuItem serviciosHabit = new JMenuItem("Servicios en Habitacion");
+		JMenuItem promopaquetes = new JMenuItem("Promociones y paquetes");
+		JMenuItem ingresosservi = new JMenuItem("Ingresos por Servicio");
+		cuentaCliente.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e){
+				reporte = new Reportes();
+				String id = JOptionPane.showInputDialog(null, "ID del Cliente", "ID del Cliente?", JOptionPane.OK_OPTION);
+				Cliente c = buscarCliente(id);
+				reporte.estadoDeCuenta(c);
+			}
+		});
+		serviciosHabit.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e){
+				reporte = new Reportes();
+				String numero = JOptionPane.showInputDialog(null,this,"Numero de habitacion?",JOptionPane.NO_OPTION);
+				Habitacion h = sucursal.buscarHabitacion(numero);
+				reporte.serviciosXHabitacion(h);
+			}
+		});
+		promopaquetes.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e){
+				reporte = new Reportes();
+				reporte.promosPaquetes(sucursal.pormos);
+			}
+		});
+		ingresosservi.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e){
+				reporte = new Reportes();
+				reporte.ingresosxServicio(sucursal.servss);
+			}
+		});
+		reportes.add(cuentaCliente);
+		reportes.add(serviciosHabit);
+		reportes.add(promopaquetes);
+		reportes.add(ingresosservi);
+		
 		
 		JMenu promocion = new JMenu("Promocion");
 		JMenuItem aLocales = new JMenuItem("Importar Locales");
@@ -122,15 +163,26 @@ public class Interfaz extends JFrame{
 		JMenuItem cLocales = new JMenuItem("Crear Promociones");
 		cLocales.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
-				promociones();
+				String nombre = JOptionPane.showInputDialog(null,"Nombre de la Promocion","Promocion",JOptionPane.OK_OPTION);
+				if(!sucursal.buscarPromo(nombre).exists()){
+					String precio = JOptionPane.showInputDialog(null,"Ingrese Precio","Precio",JOptionPane.OK_OPTION);
+					Calendar calendario = new GregorianCalendar();
+					String fecha = calendario.get(Calendar.DAY_OF_MONTH)+"/"+calendario.get(Calendar.MONTH)+"/"+calendario.get(Calendar.YEAR);
+					int yesno = JOptionPane.showInternalConfirmDialog(null, "Desea crea como global?", "Promocion global?", JOptionPane.YES_NO_OPTION);
+					if(yesno == JOptionPane.YES_OPTION){
+						sucursal.agregarPromo(nombre, fecha, "TODOS", precio);
+					}else{
+						sucursal.agregarPromo(nombre, fecha, sucursal.ubicacion, precio);
+					}
+				}
 			}
 		});
 		
 		JMenu servicios = new JMenu("Servicios");
-		JMenuItem restaurantes = new JMenuItem("Restaurantes");
-		restaurantes.addActionListener(new ActionListener(){
+		JMenuItem cargar = new JMenuItem("Cargar");
+		cargar.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
-				servicios();
+				sucursal.cargarServicios();
 			}
 		});
 		JMenuItem mostrar = new JMenuItem("Mostrar todos");
@@ -139,20 +191,91 @@ public class Interfaz extends JFrame{
 				mostrarServicios();
 			}
 		});
+		JMenu c = new JMenu("Clientes");
+		JMenuItem load = new JMenuItem("Cargar todos");
+		load.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e){
+				cargarClientes();
+			}
+		});
+		JMenuItem gastar = new JMenuItem("Compras");
+		gastar.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e){
+				sucursal.cargarServicios();
+				String servicio = JOptionPane.showInputDialog(null,"nombre del Servicio","nombre del servicio",JOptionPane.OK_OPTION);
+				Servicios srv = sucursal.buscarServicio(servicio);
+				if(srv != null){
+					String id = JOptionPane.showInputDialog(null,"Ingrese ID","Ingrese ID",JOptionPane.OK_OPTION);
+					Cliente cln = buscarCliente(id);
+					if(cln != null){
+						String sgasto = JOptionPane.showInputDialog(null,"Cantidad","Cantidad a pagar",JOptionPane.OK_OPTION);
+						float gasto = Float.valueOf(sgasto);
+						int yesno = JOptionPane.showConfirmDialog(null, "cargar a cuenta", "cargar a cuenta", JOptionPane.YES_NO_OPTION);
+						if(yesno == JOptionPane.YES_OPTION){
+							cln.setSaldo(gasto);
+						}else{
+							cln.gastar(gasto);
+						}
+						srv.agregarIngresos(gasto);
+						srv.agregarNClientes();
+					}else{
+						errorDeCarga();
+					}
+				}else{
+					errorDeCarga();
+				}
+				subirClientes();
+				sucursal.subirServicios();
+			}
+		});
+		JMenuItem nuevo = new JMenuItem("Nuevo cliente");
+		nuevo.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e){
+				clientes = null;
+				cargarClientes();
+				String id = JOptionPane.showInputDialog(null,"Ingrese ID","Ingrese ID",JOptionPane.OK_OPTION);
+				if(!idExiste(id)&& id!=null && (!id.equals(""))){
+					String nombre=JOptionPane.showInputDialog(null,"Ingrese nombre","Ingrese nombre",JOptionPane.OK_OPTION);
+					nuevoCliente(id,nombre,sucursal.ubicacion,sucursal.moneda,0,0);
+					subirClientes();
+				}else{
+					System.out.println("ID ya existe");
+				}
+			}
+		});
+		JMenuItem top = new JMenuItem("Top10");
+		top.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e){
+				ordenarClientes();
+			}
+		});
+		JMenuItem hab = new JMenuItem("Asignar Habitacion");
+		hab.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent arg0) {
+				String id = JOptionPane.showInputDialog(null,"Ingrese id de cliente","Ingrese id",JOptionPane.OK_OPTION);
+				String numero = JOptionPane.showInputDialog(null,"Numero de habitacion","Numero",JOptionPane.OK_OPTION);
+				sucursal.checkIn(id, numero, 1, 1);
+			}
+			
+		});
 		hotel.add(abrir);
 		hotel.add(crear);
 		hotel.addSeparator();
 		hotel.add(salir);
-		reportes.add(generar);
 		promocion.add(aLocales);
 		promocion.add(aGlobales);
 		promocion.add(cLocales);
-		servicios.add(restaurantes);
+		c.add(nuevo);
+		c.add(top);
+		c.add(gastar);
+		c.add(load);
+		servicios.add(cargar);
 		servicios.add(mostrar);
 		mBar.add(hotel);
 		mBar.add(reportes);
 		mBar.add(promocion);
 		mBar.add(servicios);
+		mBar.add(c);
 
 		JPanel card = new JPanel();
 		card.setBorder(null);
@@ -184,36 +307,6 @@ public class Interfaz extends JFrame{
 		numero.setHorizontalAlignment(JTextField.CENTER);
 		numero.addMouseListener(new MouseAdapter(){public void mouseClicked(MouseEvent e){numero.setText("");}});
 		pCIn.add(numero);
-		
-		/*no implementado...
-		JButton niveles[]=new JButton[3];
-		int x=26,y=150,w=50,h=50;
-		for(int i=0;i<3; i++){
-		 	niveles[i] = new JButton("N"+(i+1));
-			niveles[i].setBounds(x,y,w,h);
-			niveles[i].addActionListener(new ActionListener(){
-				public void actionPerformed(ActionEvent e){
-					JButton event = (JButton)e.getSource();
-					String nivel = event.getActionCommand();
-					/*if(nivel.contains("1")){
-						map.setImage(Toolkit.getDefaultToolkit().getImage(Interfaz.class.getResource("/resources/map1.jpg")));
-					}
-					if(nivel.contains("2")){
-						map.setImage(Toolkit.getDefaultToolkit().getImage(Interfaz.class.getResource("/resources/map2.jpg")));
-					}
-					if(nivel.contains("3")){
-						map.setImage(Toolkit.getDefaultToolkit().getImage(Interfaz.class.getResource("/resources/map3.jpg")));
-					}
-					lContenedor.setIcon(map);
-					construct(nivel, pCIn);				
-				}
-			});
-			y+=70;
-			niveles[i].setVisible(true);
-		}
-		pCIn.add(niveles[0]);pCIn.add(niveles[1]);pCIn.add(niveles[2]);
-		lContenedor.setBounds(10,10,550,425);
-		*/
 		
 		//Panel Check-Out
 		JPanel pCOut = new JPanel();
@@ -305,36 +398,6 @@ public class Interfaz extends JFrame{
 	
 	protected void mostrarServicios() {
 		
-	}
-
-	protected void construct(String nivel, JPanel panel) {
-		int x=75,y=50,w=20,h=20;
-		if(nivel.contains("N1")){
-			JButton modulos[] = new JButton[6];
-			for(int i=0;i<modulos.length;i++){
-				modulos[i].setBounds(x,y,w,h);
-				panel.add(modulos[i]);
-			}
-		}
-		if(nivel.contains("N2")){
-			JButton modulos[] = new JButton[7];
-			for(int i=0;i<modulos.length;i++){
-				
-				panel.add(modulos[i]);
-			}
-		}
-		if(nivel.contains("N3")){
-			JButton modulos[] = new JButton[4];
-			for(int i=0;i<modulos.length;i++){
-				
-				panel.add(modulos[i]);
-			}		
-		}
-		class Action implements ActionListener{
-			public void actionPerformed(ActionEvent e) {
-				
-			}
-		}
 	}
 
 	public void errorDeCarga(){
@@ -518,15 +581,14 @@ public class Interfaz extends JFrame{
 				display.setEditable(false);
 				display.setAutoscrolls(true);
 				guardar.add(display);
-				
+				String id="0";
 				int s = JOptionPane.showConfirmDialog(null,"¿Es primera vez que nos visita?","Cliente",JOptionPane.YES_NO_OPTION);
 				JButton ok = new JButton("OK");
 				ok.setBounds(157,85,80,50);
 				ok.addActionListener(new ActionListener(){
 					public void actionPerformed(ActionEvent e){
 						if(s==JOptionPane.YES_OPTION){
-							nuevoCliente(id,tNombre.getText(), cPais.getSelectedItem().toString(), sucursal.moneda);
-							id++;
+							nuevoCliente(id,tNombre.getText(), cPais.getSelectedItem().toString(), sucursal.moneda,0,0);
 						}else{
 							String id = JOptionPane.showInputDialog(null,"Ingrese su id");
 							Cliente existe = buscarCliente(id);
@@ -545,15 +607,6 @@ public class Interfaz extends JFrame{
 		reservacion.getContentPane().add(panel);
 		reservacion.setVisible(true);
 		reservacion.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-	}
-	
-	private void servicios(){
-		InnerFrame service = new InnerFrame("Crear servicios");
-		service.setBounds(0,0,600,600);
-		service.setLocationRelativeTo(null);
-		service.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		
-		service.setVisible(true);
 	}
 	
 	private void busqueda(){
@@ -673,10 +726,10 @@ public class Interfaz extends JFrame{
 		
 	}
 	
-	public void nuevoCliente(int id,String nombre, String paisResidencia, String moneda){
-		Cliente nuevo = new Cliente(id,nombre, paisResidencia, moneda);
-		nuevo.siguiente= clientes;
-		clientes = nuevo;
+	public void nuevoCliente(String id,String nombre, String paisResidencia, String moneda,float saldo, float ingreso){
+			Cliente nuevo = new Cliente(id,nombre, paisResidencia, moneda,saldo,ingreso);
+			nuevo.siguiente= clientes;
+			clientes = nuevo;
 	}
 	
 	public void removerCliente(String id){
@@ -700,10 +753,98 @@ public class Interfaz extends JFrame{
 		Cliente referencia = clientes;
 		Cliente resultado = null;
 		while(referencia != null){
-			if(referencia.id == id){
+			if(referencia.id.equals(id)){
 				resultado = referencia;
 			}
 			referencia = referencia.siguiente;
+		}
+		return resultado;
+	}
+	
+	public void cargarClientes(){
+		try{
+			BufferedReader br = new BufferedReader(new FileReader(new File("clientes.client")));
+			String line;
+			while((line=br.readLine())!=null){
+				String[]datos=line.split("_");
+				float saldo = Float.valueOf(datos[4]);
+				float ingreso = Float.valueOf(datos[5]);
+				nuevoCliente(datos[0],datos[1],datos[2],datos[3],saldo,ingreso);
+			}
+			br.close();
+		}catch(IOException e){
+			System.out.println(e);
+		}
+	}
+	
+	public void subirClientes(){
+		try{
+			Cliente tmp = clientes;
+			client = new File("clientes.client");
+			BufferedWriter bw = new BufferedWriter(new FileWriter(client));
+			if(tmp != null){
+				while(tmp!=null){
+					bw.write(tmp.id+"_"+tmp.nombre+"_"+tmp.paisResidencia+"_"+tmp.moneda+"_"+tmp.saldo
+							+"_"+tmp.ingresos+"\r\n");
+					tmp = tmp.siguiente;
+				}
+			}else{
+				System.out.println("CLIENTES VACIOS!");
+			}
+			bw.flush();
+			bw.close();
+		}catch(IOException e){
+			System.out.println(e);
+		}
+	}
+	
+	@SuppressWarnings("unused")
+	public void ordenarClientes(){
+		Cliente puntero = clientes;
+		Cliente spuntero = puntero;
+		if(puntero!= null){
+			spuntero = puntero.siguiente;
+			int tamano = cTamano();
+			for(int i = 0;i<tamano;i++){
+				for(int j=0;j<tamano-1;j++){
+					if(puntero.ingresos < spuntero.ingresos){
+						Cliente temp = puntero;
+						puntero = spuntero;
+						spuntero = temp;
+					}
+					puntero = puntero.siguiente;
+				}
+				spuntero = spuntero.siguiente;
+			}
+		subirClientes();
+		}else{
+			System.out.println("clientes vacios!");
+		}
+	}
+	
+	private int cTamano() {
+		Cliente referencia = clientes;
+		int count = 0;
+		while(referencia!=null){
+			count++;
+			referencia=referencia.siguiente;
+		}
+		return count;
+	}
+
+	public boolean idExiste(String id){
+		boolean resultado=false;
+		Cliente referencia=clientes;
+		if(referencia!=null){
+			while(referencia!=null){
+				if(referencia.id == id){
+					resultado=true;
+				}else{
+					referencia=referencia.siguiente;
+				}
+			}
+		}else{
+			System.out.println("No hay clientes");
 		}
 		return resultado;
 	}
@@ -754,7 +895,6 @@ public class Interfaz extends JFrame{
 			int result= JOptionPane.showConfirmDialog(this,"Seguro que quieres salir?","Seguro?",JOptionPane.ERROR_MESSAGE);
 			if(result == JOptionPane.YES_OPTION){
 				this.dispose();
-				parent.setVisible(true);
 			}else{
 				System.out.println("No pasa nada.");
 			}
